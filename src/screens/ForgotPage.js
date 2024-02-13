@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomInput from "../components/glb/CustomInput";
 import CustomButton from "../components/glb/CustomButton";
@@ -17,15 +17,18 @@ const ForgotPage = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.form}>
-        <CustomInput
+        <TextInput
           placeholder={"E-posta"}
           value={formValue.email}
-          onChangeValue={(e) => setFormValue({ ...formValue, email: e })}
+          keyboardType="email-address"
+          onChangeText={(e) => setFormValue({ ...formValue, email: e })}
           style={styles.input}
         />
         <CustomButton
           text={"Şifremi Yenile"}
-          onPress={() => {}}
+          onPress={() =>
+            navigation.navigate("TwoFactorAuthCode", formValue.email)
+          }
           style={styles.button}
         />
       </View>

@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomButton from "../components/glb/CustomButton";
 
-const TwoFactorAuthCodePage = ({ navigation }) => {
+const TwoFactorAuthCodePage = ({ navigation, email }) => {
   const [formValue, setFormValue] = React.useState({
     code: "",
   });
@@ -12,6 +12,7 @@ const TwoFactorAuthCodePage = ({ navigation }) => {
       <View style={styles.header}>
         <Text style={styles.title}>Notlarım</Text>
         <Text style={styles.subtitle}>Mail Adresinize Gelen Kodu Giriniz</Text>
+        <Text>{email}</Text>
       </View>
       <View style={styles.form}>
         <TextInput
