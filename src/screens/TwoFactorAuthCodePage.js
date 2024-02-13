@@ -1,30 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
-import CustomInput from "../components/glb/CustomInput";
 import CustomButton from "../components/glb/CustomButton";
 
-const TwoFactorAuthCodePage = ({ navigation }) => {
+const TwoFactorAuthCodePage = ({ navigation, email }) => {
   const [formValue, setFormValue] = React.useState({
-    email: "",
+    code: "",
   });
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Notlarım</Text>
-        <Text style={styles.subtitle}>
-          Şifrenizi sıfırlamak için E-Posta adresinizi girin
-        </Text>
+        <Text style={styles.subtitle}>Mail Adresinize Gelen Kodu Giriniz</Text>
       </View>
       <View style={styles.form}>
-        <CustomInput
-          placeholder={"E-posta"}
-          value={formValue.email}
-          onChangeValue={(e) => setFormValue({ ...formValue, email: e })}
+        <TextInput
+          placeholder={"Doğrulama Kodu"}
+          value={formValue.code}
+          onChangeValue={(e) => setFormValue({ ...formValue, code: e })}
           style={styles.input}
         />
         <CustomButton
-          text={"Şifremi Yenile"}
+          text={"Doğrula"}
           onPress={() => {}}
           style={styles.button}
         />
