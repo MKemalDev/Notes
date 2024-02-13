@@ -30,6 +30,7 @@ const HomePage = ({ navigation }) => {
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
                 <Text
@@ -89,15 +90,16 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 20,
     overflowY: "scroll",
-    flexDirection: "column",
     padding: 20,
+    flexDirection: "column",
   },
+
   cart: {
     width: "100%",
     height: 200,
     backgroundColor: "#D2E6ED",
     borderRadius: 10,
-    padding: 20,
+    padding: 10,
     gap: 20,
   },
 });
