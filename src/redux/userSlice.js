@@ -11,6 +11,9 @@ export const login = createAsyncThunk(
   "user/login",
   async (username, password) => {
     try {
+      if (!username || !password) {
+        throw new Error("Please provide username and password");
+      }
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/users",
         {

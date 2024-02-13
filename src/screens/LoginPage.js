@@ -51,7 +51,7 @@ const LoginPage = ({ navigation }) => {
         </Text>
         <Pressable
           onPress={() => {
-            dispatch(login(formValue));
+            dispatch(login(formValue.username, formValue.password));
           }}
           style={styles.button}
         >
