@@ -1,13 +1,17 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomInput from "../components/glb/CustomInput";
 import CustomButton from "../components/glb/CustomButton";
-
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../redux/userSlice";
 const LoginPage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     username: "",
     password: "",
   });
+  const dispatch = useDispatch();
+
+  const { isLoading } = useSelector((state) => state.user);
 
   return (
     <View style={styles.container}>
@@ -45,11 +49,14 @@ const LoginPage = ({ navigation }) => {
         >
           Şifremi unuttum !
         </Text>
-        <CustomButton
-          text={"Giriş Yap"}
-          onPress={() => {}}
+        <Pressable
+          onPress={() => {
+            dispatch(login(formValue));
+          }}
           style={styles.button}
-        />
+        >
+          <Text>{isLoading ? "Giriş Yapılıyor..." : "Giriş Yap"}</Text>
+        </Pressable>
       </View>
       <Text
         onPress={() => navigation.navigate("Register")}

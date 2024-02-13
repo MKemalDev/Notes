@@ -1,5 +1,5 @@
 import React from "react";
-import { HomePage, ProfilePage } from "../screens";
+import { HomePage, NotePage, ProfilePage } from "../screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
@@ -10,7 +10,7 @@ const UserStack = () => {
       initialRouteName="Home"
     >
       <Stack.Screen name="Home" component={HomePage} />
-      <Stack.Screen name="Profile" component={ProfilePage} />
+      <Stack.Screen name="Note" component={NotePage} />
     </Stack.Navigator>
   );
 };
