@@ -5,6 +5,7 @@ import {
   RegisterPage,
   ForgotPage,
   TwoFactorAuthCodePage,
+  ResetPasswordPage,
 } from "../screens";
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const AuthStack = () => {
         name="TwoFactorAuthCode"
         component={TwoFactorAuthCodePage}
       />
+      <Stack.Screen name="ResetPassword" component={ResetPasswordPage} />
     </Stack.Navigator>
   );
 };

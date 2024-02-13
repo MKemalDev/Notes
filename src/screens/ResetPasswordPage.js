@@ -2,9 +2,10 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomButton from "../components/glb/CustomButton";
 
-const TwoFactorAuthCodePage = ({ navigation, route }) => {
+const ResetPasswordPage = ({ navigation, route }) => {
   const [formValue, setFormValue] = React.useState({
-    code: "",
+    password: "",
+    NewPassword: "",
   });
   const email = route.params.email;
 
@@ -12,23 +13,25 @@ const TwoFactorAuthCodePage = ({ navigation, route }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Notlarım</Text>
-        <Text style={styles.subtitle}>Mail Adresinize Gelen Kodu Giriniz</Text>
+        <Text style={styles.subtitle}>Yeni Şifrenizi girebilirsiniz</Text>
       </View>
       <View style={styles.form}>
         <TextInput
-          placeholder={"Doğrulama Kodu"}
-          inputMode="numeric"
-          maxLength={6}
-          keyboardType="numeric"
-          value={formValue.code}
-          onChangeText={(e) => setFormValue({ ...formValue, code: e })}
+          placeholder={"Yeni Şifreniz"}
+          value={formValue.password}
+          onChangeText={(e) => setFormValue({ ...formValue, password: e })}
+          style={styles.input}
+        />
+
+        <TextInput
+          placeholder={"Yeni Şifreniz Tekrar"}
+          value={formValue.NewPassword}
+          onChangeText={(e) => setFormValue({ ...formValue, NewPassword: e })}
           style={styles.input}
         />
         <CustomButton
           text={"Doğrula"}
-          onPress={() => {
-            navigation.navigate("ResetPassword", { email: email });
-          }}
+          onPress={() => {}}
           style={styles.button}
         />
       </View>
@@ -36,7 +39,7 @@ const TwoFactorAuthCodePage = ({ navigation, route }) => {
   );
 };
 
-export default TwoFactorAuthCodePage;
+export default ResetPasswordPage;
 
 const styles = StyleSheet.create({
   container: {
