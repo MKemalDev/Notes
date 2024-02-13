@@ -7,7 +7,6 @@ const ForgotPage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     email: "",
   });
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,7 +26,9 @@ const ForgotPage = ({ navigation }) => {
         <CustomButton
           text={"Şifremi Yenile"}
           onPress={() =>
-            navigation.navigate("TwoFactorAuthCode", formValue.email)
+            navigation.navigate("TwoFactorAuthCode", {
+              email: formValue.email,
+            })
           }
           style={styles.button}
         />
