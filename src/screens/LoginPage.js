@@ -27,6 +27,7 @@ const LoginPage = () => {
 
         <CustomInput
           placeholder={"Şifre"}
+          secureTextEntry={true}
           value={formValue.password}
           onChangeValue={(e) => setFormValue({ ...formValue, password: e })}
           style={styles.input}
