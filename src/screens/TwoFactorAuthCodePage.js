@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomButton from "../components/glb/CustomButton";
 
-const TwoFactorAuthCodePage = ({ navigation, email }) => {
+const TwoFactorAuthCodePage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     code: "",
   });
