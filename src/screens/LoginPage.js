@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomInput from "../components/glb/CustomInput";
 import CustomButton from "../components/glb/CustomButton";
@@ -18,10 +18,10 @@ const LoginPage = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.form}>
-        <CustomInput
+        <TextInput
           placeholder={"Kullanıcı Adı"}
           value={formValue.username}
-          onChangeValue={(e) => setFormValue({ ...formValue, username: e })}
+          onChangeText={(e) => setFormValue({ ...formValue, username: e })}
           style={styles.input}
         />
 
@@ -29,7 +29,7 @@ const LoginPage = ({ navigation }) => {
           placeholder={"Şifre"}
           secureTextEntry={true}
           value={formValue.password}
-          onChangeValue={(e) => setFormValue({ ...formValue, password: e })}
+          onChangeText={(e) => setFormValue({ ...formValue, password: e })}
           style={styles.input}
         />
         <Text
