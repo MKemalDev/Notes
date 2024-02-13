@@ -1,15 +1,15 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const HomePage = () => {
+const HomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={{ fontSize: 28, fontWeight: "bold", color: "#4F6D7A" }}>
           Notlarım
         </Text>
-        <Text style={{ fontSize: 18, fontWeight: "500", opacity: 0.7 }}>
+        <Text style={{ fontSize: 18, fontWeight: "500", opacity: 0.5 }}>
           Yeni Not Ekle
         </Text>
       </View>
@@ -17,7 +17,15 @@ const HomePage = () => {
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.body}>
           {[...Array(10)].map((_, index) => (
-            <View key={index} style={styles.cart}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Note", {
+                  id: index,
+                });
+              }}
+              key={index}
+              style={styles.cart}
+            >
               <View
                 style={{
                   flexDirection: "row",
@@ -33,8 +41,8 @@ const HomePage = () => {
                   style={{
                     fontSize: 14,
                     fontWeight: "500",
-                    opacity: 0.5,
-                    color: "#4F6D7A",
+                    opacity: 0.7,
+                    color: "#3C362A",
                   }}
                 >
                   12.12.2022
@@ -52,7 +60,7 @@ const HomePage = () => {
                 Lorem Ipsum has been the industry's standard dummy text ever
                 since the 1500s
               </Text>
-            </View>
+            </Pressable>
           ))}
         </View>
       </ScrollView>
@@ -87,7 +95,7 @@ const styles = StyleSheet.create({
   cart: {
     width: "100%",
     height: 200,
-    backgroundColor: "#E8E5DE",
+    backgroundColor: "#D2E6ED",
     borderRadius: 10,
     padding: 20,
     gap: 20,
