@@ -11,7 +11,7 @@ const LoginPage = ({ navigation }) => {
   });
   const dispatch = useDispatch();
 
-  const { isLoading } = useSelector((state) => state.user);
+  const { isLoading, error } = useSelector((state) => state.user);
 
   return (
     <View style={styles.container}>
@@ -21,6 +21,7 @@ const LoginPage = ({ navigation }) => {
           Notlarızını görmek için giriş yapınız
         </Text>
       </View>
+      <Text style={styles.error}>{error}</Text>
       <View style={styles.form}>
         <TextInput
           placeholder={"Kullanıcı Adı"}
@@ -78,6 +79,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "column",
     gap: 10,
+  },
+
+  error: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "500",
+    alignSelf: "center",
   },
   header: {
     height: "20%",

@@ -23,7 +23,6 @@ export const login = createAsyncThunk(
           },
           body: JSON.stringify({
             username,
-            password,
           }),
         }
       );
