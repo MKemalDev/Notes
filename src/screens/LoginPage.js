@@ -3,7 +3,7 @@ import React from "react";
 import CustomInput from "../components/glb/CustomInput";
 import CustomButton from "../components/glb/CustomButton";
 
-const LoginPage = () => {
+const LoginPage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     username: "",
     password: "",
@@ -33,6 +33,7 @@ const LoginPage = () => {
           style={styles.input}
         />
         <Text
+          onPress={() => navigation.navigate("Forgot")}
           style={{
             fontSize: 12,
             width: "88%",
@@ -50,7 +51,10 @@ const LoginPage = () => {
           style={styles.button}
         />
       </View>
-      <Text style={styles.subtitle}>
+      <Text
+        onPress={() => navigation.navigate("Register")}
+        style={styles.subtitle}
+      >
         Hesabınız yok mu ? <Text>Kayıt Ol</Text>{" "}
       </Text>
     </View>
