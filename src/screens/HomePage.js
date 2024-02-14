@@ -69,7 +69,7 @@ const HomePage = ({ navigation }) => {
                     color: "#4F6D7A",
                   }}
                 >
-                  Note Title
+                  {note.title}
                 </Text>
                 <Text
                   style={{
@@ -79,7 +79,7 @@ const HomePage = ({ navigation }) => {
                     color: "#3C362A",
                   }}
                 >
-                  12.12.2022
+                  {new Date(note.create_date).toLocaleDateString()}
                 </Text>
               </View>
               <Text
@@ -90,9 +90,7 @@ const HomePage = ({ navigation }) => {
                   marginBottom: 10,
                 }}
               >
-                is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s
+                {note.content.slice(0, 275) + "..."}
               </Text>
             </Pressable>
           ))}
