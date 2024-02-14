@@ -5,6 +5,7 @@ const initialState = {
   isAuth: false,
   isLoading: false,
   response: null,
+  token: null,
   error: null,
 };
 
@@ -22,12 +23,13 @@ export const login = createAsyncThunk("user/login", async (formValue) => {
         "Content-Type": "multipart/form-data",
       },
     })
-    .then((res) => {
-      return res.data;
-    })
     .catch((err) => {
       throw new Error(err.response.data.message);
     });
+
+  if (response.status === 200) {
+    return response.data;
+  }
 });
 
 export const register = createAsyncThunk("user/register", async (formValue) => {
@@ -69,7 +71,6 @@ export const userSlice = createSlice({
     },
     reset: (state) => {
       state.isLoading = false;
-      state.isAuth = false;
       state.response = null;
       state.error = null;
     },
@@ -82,6 +83,7 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.token = action.payload.token;
         state.isAuth = true;
         state.response = action.payload;
       })
