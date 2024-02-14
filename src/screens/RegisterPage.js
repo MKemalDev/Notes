@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import CustomInput from "../components/glb/CustomInput";
 import CustomButton from "../components/glb/CustomButton";
-
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../redux/userSlice";
 const RegisterPage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     username: "",
     email: "",
     password: "",
   });
+
+  const { isLoading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -19,31 +23,33 @@ const RegisterPage = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.form}>
-        <CustomInput
+        <TextInput
           placeholder={"E-posta"}
           value={formValue.email}
-          onChangeValue={(e) => setFormValue({ ...formValue, email: e })}
+          onChangeText={(e) => setFormValue({ ...formValue, email: e })}
           style={styles.input}
         />
 
-        <CustomInput
+        <TextInput
           placeholder={"Kullanıcı Adı"}
           value={formValue.username}
-          onChangeValue={(e) => setFormValue({ ...formValue, username: e })}
+          onChangeText={(e) => setFormValue({ ...formValue, username: e })}
           style={styles.input}
         />
 
-        <CustomInput
+        <TextInput
           placeholder={"Şifre"}
           secureTextEntry={true}
           value={formValue.password}
-          onChangeValue={(e) => setFormValue({ ...formValue, password: e })}
+          onChangeText={(e) => setFormValue({ ...formValue, password: e })}
           style={styles.input}
         />
 
-        <CustomButton
+        <Pressable
           text={"Kayıt Ol"}
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(register(formValue));
+          }}
           style={styles.button}
         />
       </View>

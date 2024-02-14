@@ -82,6 +82,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isAuth = false;
         state.error = action.error.message;
+
+        setInterval(() => {
+          state.error = null;
+        }, 3000);
       });
     builder
       .addCase(register.pending, (state) => {
@@ -97,6 +101,10 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isAuth = false;
         state.error = action.error.message;
+
+        setInterval(() => {
+          state.error = null;
+        }, 3000);
       });
   },
 });
