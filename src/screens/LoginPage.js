@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../redux/userSlice";
+import { login, reset } from "../redux/userSlice";
 const LoginPage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     username: "",
@@ -10,7 +10,13 @@ const LoginPage = ({ navigation }) => {
   });
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.user);
-
+  React.useEffect(() => {
+    if (error) {
+      setInterval(() => {
+        dispatch(reset());
+      }, 3000);
+    }
+  }, [error]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../redux/userSlice";
+import { register, reset } from "../redux/userSlice";
 const RegisterPage = ({ navigation }) => {
   const [formValue, setFormValue] = React.useState({
     username: "",
@@ -11,6 +11,15 @@ const RegisterPage = ({ navigation }) => {
 
   const { isLoading, error, response } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (response || error) {
+      setInterval(() => {
+        dispatch(reset());
+      }, 3000);
+    }
+  }, [response, error]);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
