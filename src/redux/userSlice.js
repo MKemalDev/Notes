@@ -15,22 +15,19 @@ export const login = createAsyncThunk(
       throw new Error("Please provide username and password");
     }
 
-    const formData = new FormData();
-    formData.append("username", username);
-    formData.append("password", password);
-    await axios
-      .post("http://192.168.1.8/note_backend/login", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+    fetch("http://192.168.1.8/note_backend/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        return data;
       })
-      .then((response) => {
-        console.log(response.data);
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((err) => console.log(err));
   }
 );
 
