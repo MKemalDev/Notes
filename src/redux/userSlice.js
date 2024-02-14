@@ -15,6 +15,8 @@ export const login = createAsyncThunk(
       throw new Error("Please provide username and password");
     }
 
+    console.log(username, password);
+
     fetch("http://192.168.1.8/note_backend/login", {
       method: "POST",
       headers: {
@@ -25,6 +27,9 @@ export const login = createAsyncThunk(
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if (data.status) {
+          throw new Error(data.message);
+        }
         return data;
       })
       .catch((err) => console.log(err));

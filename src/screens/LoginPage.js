@@ -10,7 +10,6 @@ const LoginPage = ({ navigation }) => {
     password: "",
   });
   const dispatch = useDispatch();
-
   const { isLoading, error } = useSelector((state) => state.user);
 
   return (
@@ -32,7 +31,6 @@ const LoginPage = ({ navigation }) => {
 
         <TextInput
           placeholder={"Şifre"}
-          secureTextEntry={true}
           value={formValue.password}
           onChangeText={(e) => setFormValue({ ...formValue, password: e })}
           style={styles.input}
