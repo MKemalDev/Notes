@@ -14,18 +14,15 @@ export const login = createAsyncThunk(
       if (!username || !password) {
         throw new Error("Please provide username and password");
       }
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/users",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-          }),
-        }
-      );
+      const response = await fetch("http://localhost/note_backend/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+        }),
+      });
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
