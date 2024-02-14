@@ -8,33 +8,27 @@ const initialState = {
   error: null,
 };
 
-export const login = createAsyncThunk(
-  "user/login",
-  async (username, password) => {
-    if (!username || !password) {
-      throw new Error("Please provide username and password");
-    }
-
-    console.log(username, password);
-
-    fetch("http://192.168.1.8/note_backend/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.status) {
-          throw new Error(data.message);
-        }
-        return data;
-      })
-      .catch((err) => console.log(err));
+export const login = createAsyncThunk("user/login", async (formValue) => {
+  if (!formValue.username || !formValue.password) {
+    throw new Error("Please provide username and password");
   }
-);
+  var formData = new FormData();
+
+  formData.append("username", formValue.username);
+  formData.append("password", formValue.password);
+  const response = await axios
+    .post("http://192.168.1.8/note_backend/login", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      throw new Error(err.response.data.message);
+    });
+});
 
 export const userSlice = createSlice({
   name: "user",
@@ -59,7 +53,7 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isAuth = true;
+        state.isAuth = false;
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {

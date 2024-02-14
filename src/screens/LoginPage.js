@@ -1,7 +1,6 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
-import CustomInput from "../components/glb/CustomInput";
-import CustomButton from "../components/glb/CustomButton";
+
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../redux/userSlice";
 const LoginPage = ({ navigation }) => {
@@ -31,6 +30,7 @@ const LoginPage = ({ navigation }) => {
 
         <TextInput
           placeholder={"Şifre"}
+          secureTextEntry
           value={formValue.password}
           onChangeText={(e) => setFormValue({ ...formValue, password: e })}
           style={styles.input}
@@ -50,7 +50,7 @@ const LoginPage = ({ navigation }) => {
         </Text>
         <Pressable
           onPress={() => {
-            dispatch(login(formValue.username, formValue.password));
+            dispatch(login(formValue));
           }}
           style={styles.button}
         >
