@@ -49,7 +49,7 @@ const HomePage = ({ navigation }) => {
             <Pressable
               onPress={() => {
                 navigation.navigate("Note", {
-                  id: index,
+                  id: note.id,
                 });
               }}
               key={index}

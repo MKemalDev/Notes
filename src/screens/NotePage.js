@@ -2,12 +2,43 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
 import * as ImagePicker from "expo-image-picker";
-const NotePage = ({ navigation }) => {
+import { useSelector } from "react-redux";
+import axios from "axios";
+const NotePage = ({ navigation, route }) => {
   const [title, setTitle] = React.useState("Note Title");
   const [content, setContent] = React.useState(
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec"
   );
   const [image, setImage] = React.useState(null);
+  const { id } = route.params;
+  const { token } = useSelector((state) => state.user);
+  const [note, setNote] = React.useState(null);
+  const [response, setResponse] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const getNotes = async () => {
+    axios
+      .get("http://192.168.1.8/note_backend/getNote?id=" + id, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-apikey": "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setNote(res.data.note);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setResponse(err.response.data);
+      });
+  };
+
+  React.useEffect(() => {
+    getNotes();
+  }, []);
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -55,7 +86,7 @@ const NotePage = ({ navigation }) => {
           <TextInput
             style={{ fontSize: 20, fontWeight: "bold", color: "#4F6D7A" }}
             onChangeText={(e) => setTitle(e)}
-            value={title}
+            value={note ? note.title : ""}
           />
           <Text onPress={pickImage} style={{ fontSize: 14 }}>
             Dosya Ekle
@@ -69,7 +100,7 @@ const NotePage = ({ navigation }) => {
             padding: 10,
           }}
           onChangeText={(e) => setContent(e)}
-          value={content}
+          value={note ? note.content : ""}
         />
       </View>
     </View>
