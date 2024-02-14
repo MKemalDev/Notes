@@ -38,18 +38,19 @@ export const register = createAsyncThunk("user/register", async (formValue) => {
   formData.append("username", formValue.username);
   formData.append("password", formValue.password);
   formData.append("email", formValue.email);
-  axios
+  const response = await axios
     .post("http://192.168.1.8/note_backend/register", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
-    .then((res) => {
-      return res.data;
-    })
     .catch((err) => {
       throw new Error(err.response.data.message);
     });
+
+  if (response.status === 200) {
+    return response.data;
+  }
 });
 
 export const userSlice = createSlice({
@@ -65,6 +66,12 @@ export const userSlice = createSlice({
       state.email = null;
       state.password = null;
       state.isAuth = false;
+    },
+    reset: (state) => {
+      state.isLoading = false;
+      state.isAuth = false;
+      state.response = null;
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -82,10 +89,6 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isAuth = false;
         state.error = action.error.message;
-
-        setInterval(() => {
-          state.error = null;
-        }, 3000);
       });
     builder
       .addCase(register.pending, (state) => {
@@ -95,16 +98,13 @@ export const userSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
+        console.log(action);
         state.response = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuth = false;
         state.error = action.error.message;
-
-        setInterval(() => {
-          state.error = null;
-        }, 3000);
       });
   },
 });

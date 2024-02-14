@@ -1,7 +1,5 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
-import CustomInput from "../components/glb/CustomInput";
-import CustomButton from "../components/glb/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../redux/userSlice";
 const RegisterPage = ({ navigation }) => {
@@ -11,9 +9,8 @@ const RegisterPage = ({ navigation }) => {
     password: "",
   });
 
-  const { isLoading, error } = useSelector((state) => state.user);
+  const { isLoading, error, response } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -22,6 +19,8 @@ const RegisterPage = ({ navigation }) => {
           Yeni notlar eklemek için kayıt yapınız
         </Text>
       </View>
+      <Text style={styles.error}>{error}</Text>
+      <Text style={styles.message}>{response?.message}</Text>
       <View style={styles.form}>
         <TextInput
           placeholder={"E-posta"}
@@ -46,12 +45,13 @@ const RegisterPage = ({ navigation }) => {
         />
 
         <Pressable
-          text={"Kayıt Ol"}
           onPress={() => {
             dispatch(register(formValue));
           }}
           style={styles.button}
-        />
+        >
+          <Text>{isLoading ? "Kayıt Yapılıyor..." : "Kayıt Ol"}</Text>
+        </Pressable>
       </View>
       <Text
         onPress={() => navigation.navigate("Login")}
@@ -117,5 +117,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#C0D6DF",
     paddingLeft: 2,
+  },
+  error: {
+    color: "red",
+    fontSize: 15,
+    fontWeight: "500",
+    alignSelf: "center",
+  },
+
+  message: {
+    color: "green",
+    fontSize: 15,
+    fontWeight: "500",
+    alignSelf: "center",
   },
 });
