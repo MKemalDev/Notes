@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const initialState = {
   isAuth: false,
@@ -10,29 +11,26 @@ const initialState = {
 export const login = createAsyncThunk(
   "user/login",
   async (username, password) => {
-    try {
-      if (!username || !password) {
-        throw new Error("Please provide username and password");
-      }
-      const response = await fetch("http://localhost/note_backend/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.log(error);
-      throw error;
+    if (!username || !password) {
+      throw new Error("Please provide username and password");
     }
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+    await axios
+      .post("http://192.168.1.8/note_backend/login", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 );
 

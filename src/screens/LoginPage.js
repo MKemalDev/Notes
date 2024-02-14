@@ -30,7 +30,7 @@ const LoginPage = ({ navigation }) => {
           style={styles.input}
         />
 
-        <CustomInput
+        <TextInput
           placeholder={"Şifre"}
           secureTextEntry={true}
           value={formValue.password}
