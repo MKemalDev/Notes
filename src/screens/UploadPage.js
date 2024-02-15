@@ -146,12 +146,6 @@ const UploadPage = ({ navigation, route }) => {
         >
           <AntDesign name="close" size={24} color="black" />
         </Text>
-        <Text
-          onPress={() => uploadImage()}
-          style={{ fontSize: 15, fontWeight: "bold", color: "#4F6D7A" }}
-        >
-          <AntDesign name="check" size={24} color="black" />
-        </Text>
       </View>
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.images}>
