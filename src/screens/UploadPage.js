@@ -23,18 +23,18 @@ const UploadPage = ({ navigation, route }) => {
 
   const [uploadResponse, setUploadResponse] = React.useState(null);
 
-  const uploadImage = async () => {
+  const uploadImage = async (file) => {
     try {
       var formData = new FormData();
-      if (!image) {
+      if (!file) {
         // Hiçbir resim seçilmemiş durumunu işle
         console.warn("Lütfen bir resim seçin");
         return;
       }
       formData.append("image", {
-        uri: image,
-        type: "image/jpeg",
-        name: "image.jpg",
+        uri: file?.uri,
+        type: file?.mimeType,
+        name: "image." + file?.mimeType.split("/")[1],
       });
       formData.append("note_id", id);
       const response = await axios.post(
@@ -49,7 +49,6 @@ const UploadPage = ({ navigation, route }) => {
             const percentCompleted = Math.round(
               (progressEvent.loaded * 100) / progressEvent.total
             );
-            // İlerleme durumunu kullanarak kullanıcıya bilgi verebilirsiniz
             setUploading(percentCompleted);
           },
         }
@@ -58,12 +57,23 @@ const UploadPage = ({ navigation, route }) => {
       if (response.status === 200) {
         setUploading(0);
         setUploadResponse("Resim yüklendi");
+        getImages();
+        setTimeout(() => {
+          setImage(null);
+          setUploadResponse(null);
+        }, 1000);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        Alert.alert("Hata", err.response.data.message || err.message);
+        Alert.alert("Bir sorun Oluştu ", " lütfen resmi tekrar kaydedin");
+        setUploading(0);
+        setUploadResponse(null);
+        setImage(null);
       } else {
-        Alert.alert("Hata", err.message);
+        setUploading(0);
+        setUploadResponse(null);
+        setImage(null);
+        Alert.alert("Bir sorun Oluştu", " lütfen resmi tekrar kaydedin");
       }
     }
   };
@@ -76,8 +86,9 @@ const UploadPage = ({ navigation, route }) => {
       quality: 1,
     });
     if (!result.canceled) {
-      var file = result.assets[0].uri;
+      var file = result.assets[0];
       setImage(file);
+      uploadImage(file);
     }
   };
 
@@ -98,7 +109,27 @@ const UploadPage = ({ navigation, route }) => {
         if (err.response.status === 401) {
           reset();
         }
-        setResponse(err.response.data);
+        console.log(err);
+      });
+  };
+
+  const removeImage = async (id) => {
+    axios
+      .delete("http://192.168.1.8/note_backend/removeImage?image_id=" + id, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "x-apikey": "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        getImages();
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (err.response.status === 401) {
+          reset();
+        }
+        console.log(err);
       });
   };
 
@@ -150,7 +181,7 @@ const UploadPage = ({ navigation, route }) => {
             {image && (
               <View style={styles.image}>
                 <Image
-                  source={{ uri: image }}
+                  source={{ uri: image.uri }}
                   style={{ width: "100%", height: "100%", borderRadius: 10 }}
                 />
                 <Pressable
@@ -200,7 +231,7 @@ const UploadPage = ({ navigation, route }) => {
                 style={{ width: "100%", height: "100%", borderRadius: 10 }}
               />
               <Pressable
-                onPress={() => setImage(null)}
+                onPress={() => removeImage(image.id)}
                 style={{ position: "absolute", top: 5, right: 5, zIndex: 5 }}
               >
                 <AntDesign name="close" size={24} color="black" />
