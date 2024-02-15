@@ -9,15 +9,41 @@ const UploadPage = ({ navigation, route }) => {
   const { id } = route.params;
   const { token } = useSelector((state) => state.user);
   const uploadImage = async () => {
-    var formData = new FormData();
-    formData.append("file", image);
-    formData.append("note_id", id);
+    try {
+      var formData = new FormData();
+      if (!image) {
+        // Hiçbir resim seçilmemiş durumunu işle
+        console.warn("Lütfen bir resim seçin");
+        return;
+      }
+      formData.append("image", {
+        uri: image,
+        type: "image/jpeg",
+        name: "image",
+      });
+      formData.append("note_id", id);
+      const response = await axios
+        .post("http://192.168.1.8/note_backend/uploadImage", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "x-apikey": "Bearer " + token,
+          },
+        })
+        .catch((err) => {
+          throw err;
+        });
 
-    console.log(id, image);
+      console.log(response.data);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.error("Axios hatası:", err.response?.data || err.message);
+      } else {
+        console.error("Resim yükleme hatası:", err);
+      }
+    }
   };
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -25,8 +51,7 @@ const UploadPage = ({ navigation, route }) => {
       quality: 1,
     });
     if (!result.canceled) {
-      var file = result.assets[0];
-      file.fileName = "image";
+      var file = result.assets[0].uri;
       setImage(file);
     }
   };
@@ -41,9 +66,7 @@ const UploadPage = ({ navigation, route }) => {
           <AntDesign name="close" size={24} color="black" />
         </Text>
         <Text
-          onPress={() => {
-            uploadImage();
-          }}
+          onPress={() => uploadImage()}
           style={{ fontSize: 15, fontWeight: "bold", color: "#4F6D7A" }}
         >
           <AntDesign name="check" size={24} color="black" />
@@ -68,7 +91,7 @@ const UploadPage = ({ navigation, route }) => {
         {image && (
           <View style={styles.image}>
             <Image
-              source={{ uri: image.uri }}
+              source={{ uri: image }}
               style={{ width: "100%", height: "100%", borderRadius: 10 }}
             />
             <Pressable
