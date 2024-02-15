@@ -4,6 +4,24 @@ import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 const UploadPage = ({ navigation, route }) => {
   const [image, setImage] = React.useState(null);
+  const { id } = route.params;
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("note_id", id);
+    await fetch("http://192.168.1.8/note_backend/uploadImage", {
+      method: "POST",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -13,11 +31,9 @@ const UploadPage = ({ navigation, route }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setImage(result.assets[0]);
+      uploadImage();
     }
   };
 
@@ -50,7 +66,7 @@ const UploadPage = ({ navigation, route }) => {
         {image && (
           <View style={styles.image}>
             <Image
-              source={{ uri: image }}
+              source={{ uri: image.uri }}
               style={{ width: "100%", height: "100%", borderRadius: 10 }}
             />
             <Pressable

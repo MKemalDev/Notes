@@ -76,7 +76,9 @@ const NotePage = ({ navigation, route }) => {
           />
           <Text
             onPress={() => {
-              navigation.navigate("Upload");
+              navigation.navigate("Upload", {
+                id: id,
+              });
             }}
             style={{ fontSize: 14 }}
           >
