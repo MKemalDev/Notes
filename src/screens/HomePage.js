@@ -57,8 +57,7 @@ const HomePage = ({ navigation }) => {
         <View style={styles.body}>
           {notes.map((note, index) => (
             <View key={index} style={styles.cart}>
-              <Pressable
-                onPress={() => navigation.navigate("Note", { id: note.id })}
+              <View
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -84,7 +83,7 @@ const HomePage = ({ navigation }) => {
                 >
                   {new Date(note.create_date).toLocaleDateString()}
                 </Text>
-              </Pressable>
+              </View>
               <View style={{ height: "82%" }}>
                 <Swiper
                   dot={<View style={{ display: "none" }} />}
@@ -134,6 +133,7 @@ const HomePage = ({ navigation }) => {
                     </Text>
                   </View>
                   <Text
+                    onPress={() => navigation.navigate("Note", { id: note.id })}
                     style={{
                       fontSize: 16,
                       alignSelf: "flex-end",
