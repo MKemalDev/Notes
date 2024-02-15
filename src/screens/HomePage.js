@@ -95,29 +95,51 @@ const HomePage = ({ navigation }) => {
                     <ImageItem key={index} item={image} index={index} />
                   ))}
                 </Swiper>
-
-                <View
-                  style={{
-                    flexDirection: "row",
-                    gap: 10,
-                    paddingHorizontal: 20,
-                  }}
-                >
-                  <Text style={{ fontSize: 15, fontWeight: "500" }}>
-                    @Kemal07
-                  </Text>
+                <View style={{ height: "10%", gap: 8 }}>
                   <Text
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
                     style={{
                       fontSize: 15,
                       fontWeight: "500",
-                      opacity: 0.7,
-                      flex: 1,
                       color: "#3C362A",
+                      paddingHorizontal: 20,
                     }}
                   >
-                    {note.content}
+                    @Kemal07
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      gap: 10,
+                      paddingHorizontal: 20,
+                    }}
+                  >
+                    <Text
+                      onPress={() => {
+                        navigation.navigate("NoteDescription", {
+                          description: note.content,
+                        });
+                      }}
+                      numberOfLines={2}
+                      ellipsizeMode="tail"
+                      style={{
+                        fontSize: 13,
+                        fontWeight: "500",
+                        opacity: 0.7,
+                        flex: 1,
+                        color: "#3C362A",
+                      }}
+                    >
+                      {note.content}
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      alignSelf: "flex-end",
+                      paddingHorizontal: 20,
+                    }}
+                  >
+                    Düzenle
                   </Text>
                 </View>
               </View>

@@ -6,6 +6,7 @@ import ForgotPage from "./ForgotPage";
 import TwoFactorAuthCodePage from "./TwoFactorAuthCodePage";
 import ResetPasswordPage from "./ResetPasswordPage";
 import UploadPage from "./UploadPage";
+import NoteDescription from "./NoteDescription";
 export {
   HomePage,
   LoginPage,
@@ -15,4 +16,5 @@ export {
   TwoFactorAuthCodePage,
   ResetPasswordPage,
   UploadPage,
+  NoteDescription,
 };
