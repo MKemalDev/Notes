@@ -1,5 +1,5 @@
 import React from "react";
-import { HomePage, NotePage, ProfilePage } from "../screens";
+import { HomePage, NotePage, UploadPage } from "../screens";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
@@ -11,6 +11,7 @@ const UserStack = () => {
     >
       <Stack.Screen name="Home" component={HomePage} />
       <Stack.Screen name="Note" component={NotePage} />
+      <Stack.Screen name="Upload" component={UploadPage} />
     </Stack.Navigator>
   );
 };

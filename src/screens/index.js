@@ -5,6 +5,7 @@ import RegisterPage from "./RegisterPage";
 import ForgotPage from "./ForgotPage";
 import TwoFactorAuthCodePage from "./TwoFactorAuthCodePage";
 import ResetPasswordPage from "./ResetPasswordPage";
+import UploadPage from "./UploadPage";
 export {
   HomePage,
   LoginPage,
@@ -13,4 +14,5 @@ export {
   ForgotPage,
   TwoFactorAuthCodePage,
   ResetPasswordPage,
+  UploadPage,
 };

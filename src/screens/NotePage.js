@@ -1,13 +1,13 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
+
 import { useSelector } from "react-redux";
 import axios from "axios";
 const NotePage = ({ navigation, route }) => {
   const [title, setTitle] = React.useState(null);
   const [content, setContent] = React.useState(null);
-  const [image, setImage] = React.useState(null);
+
   const { id } = route.params;
   const { token } = useSelector((state) => state.user);
   const [response, setResponse] = React.useState(null);
@@ -35,21 +35,6 @@ const NotePage = ({ navigation, route }) => {
     getNotes();
   }, []);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -66,9 +51,7 @@ const NotePage = ({ navigation, route }) => {
           <AntDesign name="check" size={24} color="black" />
         </Text>
       </View>
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )}
+
       <View
         style={{
           width: "100%",
@@ -91,7 +74,12 @@ const NotePage = ({ navigation, route }) => {
             onChangeText={(e) => setTitle(e)}
             value={loading ? "Yükleniyor..." : title || "Not Başlığı"}
           />
-          <Text onPress={pickImage} style={{ fontSize: 14 }}>
+          <Text
+            onPress={() => {
+              navigation.navigate("Upload");
+            }}
+            style={{ fontSize: 14 }}
+          >
             <AntDesign name="addfile" size={20} color="black" />
           </Text>
         </View>
