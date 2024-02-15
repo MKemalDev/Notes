@@ -1,4 +1,12 @@
-import { Pressable, StyleSheet, Text, View, Image, Alert } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Alert,
+  ScrollView,
+} from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
@@ -114,82 +122,93 @@ const UploadPage = ({ navigation, route }) => {
           <AntDesign name="check" size={24} color="black" />
         </Text>
       </View>
-      <View style={styles.images}>
-        <View style={styles.upload}>
-          <Pressable
-            onPress={pickImage}
+      <ScrollView style={{ width: "100%" }}>
+        <View style={styles.images}>
+          <View
             style={{
               width: "100%",
-              height: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
               alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
             }}
           >
-            <AntDesign name="addfile" size={30} color="black" />
-            <Text>Resim Seç</Text>
-          </Pressable>
-        </View>
-        {image && (
-          <View style={styles.image}>
-            <Image
-              source={{ uri: image }}
-              style={{ width: "100%", height: "100%", borderRadius: 10 }}
-            />
-            <Pressable
-              onPress={() => setImage(null)}
-              style={{ position: "absolute", top: 5, right: 5, zIndex: 5 }}
-            >
-              <AntDesign name="close" size={24} color="black" />
-            </Pressable>
-            {uploading > 0 && (
-              <View style={styles.progressContainer}>
-                <Text
-                  style={{
-                    fontSize: 30,
-                    color: "#fff",
-                    fontWeight: "bold",
-                    opacity: 0.5,
-                  }}
+            <View style={styles.upload}>
+              <Pressable
+                onPress={pickImage}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 10,
+                }}
+              >
+                <AntDesign name="addfile" size={30} color="black" />
+                <Text>Resim Seç</Text>
+              </Pressable>
+            </View>
+            {image && (
+              <View style={styles.image}>
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: "100%", height: "100%", borderRadius: 10 }}
+                />
+                <Pressable
+                  onPress={() => setImage(null)}
+                  style={{ position: "absolute", top: 5, right: 5, zIndex: 5 }}
                 >
-                  {uploading + "%"}
-                </Text>
-              </View>
-            )}
-            {uploadResponse && (
-              <View style={styles.progressContainer}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: "#fff",
-                    fontWeight: "bold",
-                    opacity: 0.5,
-                  }}
-                >
-                  {uploadResponse}
-                </Text>
+                  <AntDesign name="close" size={24} color="black" />
+                </Pressable>
+                {uploading > 0 && (
+                  <View style={styles.progressContainer}>
+                    <Text
+                      style={{
+                        fontSize: 30,
+                        color: "#fff",
+                        fontWeight: "bold",
+                        opacity: 0.5,
+                      }}
+                    >
+                      {uploading + "%"}
+                    </Text>
+                  </View>
+                )}
+                {uploadResponse && (
+                  <View style={styles.progressContainer}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: "#fff",
+                        fontWeight: "bold",
+                        opacity: 0.5,
+                      }}
+                    >
+                      {uploadResponse}
+                    </Text>
+                  </View>
+                )}
               </View>
             )}
           </View>
-        )}
 
-        {images.map((image, index) => (
-          <View key={index} style={styles.image}>
-            <Image
-              source={{
-                uri: "http://192.168.1.8/note_backend/uploads/" + image.file,
-              }}
-              style={{ width: "100%", height: "100%", borderRadius: 10 }}
-            />
-            <Pressable
-              onPress={() => setImage(null)}
-              style={{ position: "absolute", top: 5, right: 5, zIndex: 5 }}
-            >
-              <AntDesign name="close" size={24} color="black" />
-            </Pressable>
-          </View>
-        ))}
-      </View>
+          {images.map((image, index) => (
+            <View key={index} style={styles.image}>
+              <Image
+                source={{
+                  uri: "http://192.168.1.8/note_backend/uploads/" + image.file,
+                }}
+                style={{ width: "100%", height: "100%", borderRadius: 10 }}
+              />
+              <Pressable
+                onPress={() => setImage(null)}
+                style={{ position: "absolute", top: 5, right: 5, zIndex: 5 }}
+              >
+                <AntDesign name="close" size={24} color="black" />
+              </Pressable>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
