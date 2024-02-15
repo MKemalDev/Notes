@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Image } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image, Alert } from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
@@ -19,7 +19,7 @@ const UploadPage = ({ navigation, route }) => {
       formData.append("image", {
         uri: image,
         type: "image/jpeg",
-        name: "image",
+        name: "image.jpg",
       });
       formData.append("note_id", id);
       const response = await axios
@@ -33,12 +33,14 @@ const UploadPage = ({ navigation, route }) => {
           throw err;
         });
 
-      console.log(response.data);
+      if (response.status === 200) {
+        Alert.alert("Basarili", "Resim yüklendi");
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        console.error("Axios hatası:", err.response?.data || err.message);
+        Alert.alert("Hata", err.response.data.message || err.message);
       } else {
-        console.error("Resim yükleme hatası:", err);
+        Alert.alert("Hata", err.message);
       }
     }
   };
