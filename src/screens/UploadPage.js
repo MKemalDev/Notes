@@ -2,10 +2,11 @@ import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 const UploadPage = ({ navigation, route }) => {
   const [image, setImage] = React.useState(null);
   const { id } = route.params;
-
+  const { token } = useSelector((state) => state.user);
   const uploadImage = async () => {
     const formData = new FormData();
     formData.append("file", image);
@@ -13,6 +14,10 @@ const UploadPage = ({ navigation, route }) => {
     await fetch("http://192.168.1.8/note_backend/uploadImage", {
       method: "POST",
       body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-apikey": "Bearer " + token,
+      },
     })
       .then((res) => res.json())
       .then((res) => {
@@ -32,8 +37,9 @@ const UploadPage = ({ navigation, route }) => {
       quality: 1,
     });
     if (!result.canceled) {
-      setImage(result.assets[0]);
-      uploadImage();
+      var file = result.assets[0];
+      file.fileName = "image";
+      setImage(file);
     }
   };
 
@@ -45,6 +51,14 @@ const UploadPage = ({ navigation, route }) => {
           style={{ fontSize: 15, fontWeight: "bold", color: "#4F6D7A" }}
         >
           <AntDesign name="close" size={24} color="black" />
+        </Text>
+        <Text
+          onPress={() => {
+            uploadImage();
+          }}
+          style={{ fontSize: 15, fontWeight: "bold", color: "#4F6D7A" }}
+        >
+          <AntDesign name="check" size={24} color="black" />
         </Text>
       </View>
       <View style={styles.images}>
