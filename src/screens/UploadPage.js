@@ -8,7 +8,7 @@ const UploadPage = ({ navigation, route }) => {
 
   const uploadImage = async () => {
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("file", image);
     formData.append("note_id", id);
     await fetch("http://192.168.1.8/note_backend/uploadImage", {
       method: "POST",
