@@ -56,8 +56,9 @@ const HomePage = ({ navigation }) => {
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.body}>
           {notes.map((note, index) => (
-            <Pressable key={index} style={styles.cart}>
-              <View
+            <View key={index} style={styles.cart}>
+              <Pressable
+                onPress={() => navigation.navigate("Note", { id: note.id })}
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",
@@ -83,7 +84,7 @@ const HomePage = ({ navigation }) => {
                 >
                   {new Date(note.create_date).toLocaleDateString()}
                 </Text>
-              </View>
+              </Pressable>
               <View style={{ height: "82%" }}>
                 <Swiper
                   dot={<View style={{ display: "none" }} />}
@@ -143,7 +144,7 @@ const HomePage = ({ navigation }) => {
                   </Text>
                 </View>
               </View>
-            </Pressable>
+            </View>
           ))}
         </View>
       </ScrollView>
@@ -165,6 +166,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-end",
+    backgroundColor: "#D2E6ED",
     padding: 20,
     justifyContent: "space-between",
   },
