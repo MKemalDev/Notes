@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { reset } from "../redux/userSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -18,13 +18,14 @@ const HomePage = ({ navigation }) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
         setNotes(res.data.notes);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
+        if (err.response.status === 401) {
+          reset();
+        }
         setResponse(err.response.data);
       });
   };
@@ -39,7 +40,7 @@ const HomePage = ({ navigation }) => {
           Notlarım
         </Text>
         <Text style={{ fontSize: 18, fontWeight: "500", opacity: 0.5 }}>
-          Yeni Not Ekle
+          <FontAwesome6 name="add" size={24} color="black" />
         </Text>
       </View>
 

@@ -1,18 +1,15 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
-
+import { AntDesign } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useSelector } from "react-redux";
 import axios from "axios";
 const NotePage = ({ navigation, route }) => {
-  const [title, setTitle] = React.useState("Note Title");
-  const [content, setContent] = React.useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec"
-  );
+  const [title, setTitle] = React.useState(null);
+  const [content, setContent] = React.useState(null);
   const [image, setImage] = React.useState(null);
   const { id } = route.params;
   const { token } = useSelector((state) => state.user);
-  const [note, setNote] = React.useState(null);
   const [response, setResponse] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const getNotes = async () => {
@@ -24,12 +21,11 @@ const NotePage = ({ navigation, route }) => {
         },
       })
       .then((res) => {
-        console.log(res.data);
-        setNote(res.data.note);
         setLoading(false);
+        setTitle(res.data.note.title);
+        setContent(res.data.note.content);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         setResponse(err.response.data);
       });
@@ -61,7 +57,13 @@ const NotePage = ({ navigation, route }) => {
           onPress={() => navigation.goBack()}
           style={{ fontSize: 15, fontWeight: "bold", color: "#4F6D7A" }}
         >
-          Geri Dön
+          <AntDesign name="close" size={24} color="black" />
+        </Text>
+        <Text
+          onPress={() => {}}
+          style={{ fontSize: 15, fontWeight: "bold", color: "#4F6D7A" }}
+        >
+          <AntDesign name="check" size={24} color="black" />
         </Text>
       </View>
       {image && (
@@ -70,7 +72,7 @@ const NotePage = ({ navigation, route }) => {
       <View
         style={{
           width: "100%",
-          height: "80%",
+          height: "88%",
           backgroundColor: "#D2E6ED",
           padding: 20,
           borderRadius: 20,
@@ -80,16 +82,17 @@ const NotePage = ({ navigation, route }) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
+            paddingHorizontal: 5,
             alignItems: "center",
           }}
         >
           <TextInput
             style={{ fontSize: 20, fontWeight: "bold", color: "#4F6D7A" }}
             onChangeText={(e) => setTitle(e)}
-            value={note ? note.title : ""}
+            value={loading ? "Yükleniyor..." : title || "Not Başlığı"}
           />
           <Text onPress={pickImage} style={{ fontSize: 14 }}>
-            Dosya Ekle
+            <AntDesign name="addfile" size={20} color="black" />
           </Text>
         </View>
         <TextInput
@@ -100,7 +103,7 @@ const NotePage = ({ navigation, route }) => {
             padding: 10,
           }}
           onChangeText={(e) => setContent(e)}
-          value={note ? note.content : ""}
+          value={loading ? "Yükleniyor..." : content || "Not yazın"}
         />
       </View>
     </View>
@@ -122,7 +125,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-end",
-    padding: 20,
+    padding: 5,
+    paddingBottom: 20,
     justifyContent: "space-between",
   },
 });
