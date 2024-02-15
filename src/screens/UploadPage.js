@@ -53,7 +53,10 @@ const UploadPage = ({ navigation, route }) => {
               source={{ uri: image }}
               style={{ width: "100%", height: "100%", borderRadius: 10 }}
             />
-            <Pressable style={{ position: "absolute", top: 5, right: 5 }}>
+            <Pressable
+              onPress={() => setImage(null)}
+              style={{ position: "absolute", top: 5, right: 5 }}
+            >
               <AntDesign name="close" size={24} color="black" />
             </Pressable>
           </View>
