@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,11 +20,9 @@ const UploadPage = ({ navigation, route }) => {
       setImage(result.assets[0].uri);
     }
   };
+
   return (
     <View style={styles.container}>
-      {/* {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )} */}
       <View style={styles.header}>
         <Text
           onPress={() => navigation.goBack()}
@@ -34,14 +32,32 @@ const UploadPage = ({ navigation, route }) => {
         </Text>
       </View>
       <View style={styles.images}>
-        <View onPress={pickImage} style={styles.upload}>
-          <View style={{ alignItems: "center", gap: 10 }}>
+        <View style={styles.upload}>
+          <Pressable
+            onPress={pickImage}
+            style={{
+              width: "100%",
+              height: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+            }}
+          >
             <AntDesign name="addfile" size={30} color="black" />
             <Text>Upload</Text>
-          </View>
+          </Pressable>
         </View>
-        <View style={styles.image}></View>
-        <View style={styles.image}></View>
+        {image && (
+          <View style={styles.image}>
+            <Image
+              source={{ uri: image }}
+              style={{ width: "100%", height: "100%", borderRadius: 10 }}
+            />
+            <Pressable style={{ position: "absolute", top: 5, right: 5 }}>
+              <AntDesign name="close" size={24} color="black" />
+            </Pressable>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -79,7 +95,7 @@ const styles = StyleSheet.create({
   image: {
     height: 150,
     width: "45%",
-    borderWidth: 1,
+    position: "relative",
     borderRadius: 10,
   },
   upload: {
