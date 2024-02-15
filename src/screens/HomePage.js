@@ -107,6 +107,8 @@ const HomePage = ({ navigation }) => {
                     @Kemal07
                   </Text>
                   <Text
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
                     style={{
                       fontSize: 15,
                       fontWeight: "500",
@@ -115,7 +117,7 @@ const HomePage = ({ navigation }) => {
                       color: "#3C362A",
                     }}
                   >
-                    {note.content.substring(0, 100)}
+                    {note.content}
                   </Text>
                 </View>
               </View>
