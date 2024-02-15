@@ -1,9 +1,18 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  Image,
+  View,
+} from "react-native";
 import React from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { reset } from "../redux/userSlice";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Swiper from "react-native-swiper";
+import ImageItem from "../components/ImageItem";
 const HomePage = ({ navigation }) => {
   const { token } = useSelector((state) => state.user);
   const [notes, setNotes] = React.useState([]);
@@ -47,15 +56,7 @@ const HomePage = ({ navigation }) => {
       <ScrollView style={{ width: "100%" }}>
         <View style={styles.body}>
           {notes.map((note, index) => (
-            <Pressable
-              onPress={() => {
-                navigation.navigate("Note", {
-                  id: note.id,
-                });
-              }}
-              key={index}
-              style={styles.cart}
-            >
+            <Pressable key={index} style={styles.cart}>
               <View
                 style={{
                   flexDirection: "row",
@@ -65,7 +66,7 @@ const HomePage = ({ navigation }) => {
               >
                 <Text
                   style={{
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: "500",
                     color: "#4F6D7A",
                   }}
@@ -74,7 +75,7 @@ const HomePage = ({ navigation }) => {
                 </Text>
                 <Text
                   style={{
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: "500",
                     opacity: 0.7,
                     color: "#3C362A",
@@ -83,16 +84,41 @@ const HomePage = ({ navigation }) => {
                   {new Date(note.create_date).toLocaleDateString()}
                 </Text>
               </View>
-              <Text
-                style={{
-                  fontSize: 14,
-                  opacity: 0.5,
-                  fontWeight: "500",
-                  marginBottom: 10,
-                }}
-              >
-                {note.content.slice(0, 275) + "..."}
-              </Text>
+              <View style={{ height: "82%" }}>
+                <Swiper
+                  dot={<View style={{ display: "none" }} />}
+                  activeDotStyle={{
+                    display: "none",
+                  }}
+                >
+                  {note.images.map((image, index) => (
+                    <ImageItem key={index} item={image} index={index} />
+                  ))}
+                </Swiper>
+
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 10,
+                    paddingHorizontal: 20,
+                  }}
+                >
+                  <Text style={{ fontSize: 15, fontWeight: "500" }}>
+                    @Kemal07
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: "500",
+                      opacity: 0.7,
+                      flex: 1,
+                      color: "#3C362A",
+                    }}
+                  >
+                    {note.content.substring(0, 100)}
+                  </Text>
+                </View>
+              </View>
             </Pressable>
           ))}
         </View>
@@ -128,8 +154,9 @@ const styles = StyleSheet.create({
 
   cart: {
     width: "100%",
-    height: 200,
-    backgroundColor: "#D2E6ED",
+    height: 600,
+    backgroundColor: "#fff",
+    elevation: 4,
     borderRadius: 10,
     padding: 10,
     gap: 20,
