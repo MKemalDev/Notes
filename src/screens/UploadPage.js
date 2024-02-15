@@ -3,29 +3,17 @@ import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import axios from "axios";
 const UploadPage = ({ navigation, route }) => {
   const [image, setImage] = React.useState(null);
   const { id } = route.params;
   const { token } = useSelector((state) => state.user);
   const uploadImage = async () => {
-    const formData = new FormData();
+    var formData = new FormData();
     formData.append("file", image);
     formData.append("note_id", id);
-    await fetch("http://192.168.1.8/note_backend/uploadImage", {
-      method: "POST",
-      body: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "x-apikey": "Bearer " + token,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    console.log(id, image);
   };
 
   const pickImage = async () => {
